@@ -20,14 +20,20 @@ const Index = () => {
             The games are independently developed by our team, fun, fair, and safe
           </p>
           <div className="grid grid-cols-2 gap-4">
-            {Array(4).fill(0).map((_, i) => (
-              <div
-                key={i}
-                className="aspect-video bg-gradient-to-br from-blue-400 to-purple-500 rounded-xl flex items-center justify-center text-white font-bold"
-              >
-                Game {i + 1}
-              </div>
-            ))}
+            <div className="aspect-video rounded-xl overflow-hidden">
+              <img 
+                src="/lovable-uploads/5afca07a-0c74-4b32-8ae4-2906146503c9.png"
+                alt="Win Go"
+                className="w-full h-full object-cover"
+              />
+            </div>
+            <div className="aspect-video rounded-xl overflow-hidden">
+              <img 
+                src="/lovable-uploads/825f07e4-8b47-423a-b362-853f7498bfc7.png"
+                alt="K3"
+                className="w-full h-full object-cover"
+              />
+            </div>
           </div>
         </div>
       </div>
