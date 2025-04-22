@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { ArrowLeft, ChevronRight } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
@@ -46,7 +45,7 @@ const Deposit = () => {
           </Card>
           <Card className="p-4 flex flex-col items-center text-center">
             <div className="text-2xl mb-1">💳</div>
-            <div className="text-sm font-medium">Innate UPI-QR</div>
+            <div className="text-sm font-medium">QR UPI</div>
           </Card>
           <Card className="p-4 flex flex-col items-center text-center">
             <div className="text-2xl mb-1">🔄</div>
