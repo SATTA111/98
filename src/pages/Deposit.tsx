@@ -31,7 +31,7 @@ const Deposit = () => {
               <div className="text-2xl font-bold">₹{balance}</div>
             </div>
             <img 
-              src="/lovable-uploads/19271910-ffa5-4ade-b2e5-0f205e27c360.png" 
+              src="/lovable-uploads/ac524e01-6057-4b93-a412-38eb33dee467.png" 
               alt="Wallet Icon" 
               className="w-12 h-12"
             />
