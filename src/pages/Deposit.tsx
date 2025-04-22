@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { ArrowLeft, ChevronRight } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
@@ -29,7 +30,11 @@ const Deposit = () => {
               <span className="text-sm opacity-90">💰 Balance</span>
               <div className="text-2xl font-bold">₹{balance}</div>
             </div>
-            <img src="/lovable-uploads/42dbdaac-2f43-4be7-8960-25e847403cce.png" alt="AR Logo" className="w-12 h-12" />
+            <img 
+              src="/lovable-uploads/19271910-ffa5-4ade-b2e5-0f205e27c360.png" 
+              alt="Wallet Icon" 
+              className="w-12 h-12"
+            />
           </div>
         </Card>
 
