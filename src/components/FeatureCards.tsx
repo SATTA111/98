@@ -4,13 +4,19 @@ import React from 'react';
 const FeatureCards = () => {
   return (
     <div className="grid grid-cols-2 gap-4 p-4">
-      <div className="bg-gradient-to-r from-orange-400 to-red-400 p-4 rounded-xl text-white">
-        <h3 className="text-xl font-medium mb-2">Wheel</h3>
-        <p className="text-white/80">of fortune</p>
+      <div className="relative h-24 rounded-xl overflow-hidden">
+        <img 
+          src="/lovable-uploads/7c030edc-4867-4789-a8e0-deba311ae319.png"
+          alt="Wheel of fortune"
+          className="w-full h-full object-cover"
+        />
       </div>
-      <div className="bg-gradient-to-r from-purple-500 to-pink-500 p-4 rounded-xl text-white">
-        <h3 className="text-xl font-medium mb-2">VIP</h3>
-        <p className="text-white/80">privileges</p>
+      <div className="relative h-24 rounded-xl overflow-hidden">
+        <img 
+          src="/lovable-uploads/42dbdaac-2f43-4be7-8960-25e847403cce.png"
+          alt="VIP privileges"
+          className="w-full h-full object-cover"
+        />
       </div>
     </div>
   );
