@@ -1,10 +1,10 @@
-
 import React from 'react';
 import { Copy, ChevronRight, History, Wallet, Gift, Languages, BarChart3 } from 'lucide-react';
 import { toast } from 'sonner';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import BottomNav from '@/components/BottomNav';
+import { useNavigate } from 'react-router-dom';
 
 const AccountPage = () => {
   const uid = Math.random().toString(36).substring(2, 10).toUpperCase();
@@ -15,6 +15,8 @@ const AccountPage = () => {
     navigator.clipboard.writeText(uid);
     toast.success("UID copied to clipboard");
   };
+
+  const navigate = useNavigate();
 
   return (
     <div className="min-h-screen bg-gray-50 pb-20">
@@ -62,7 +64,11 @@ const AccountPage = () => {
               </div>
               <span className="text-xs">ARWallet</span>
             </Button>
-            <Button variant="ghost" className="flex flex-col items-center gap-2 h-auto py-2">
+            <Button 
+              variant="ghost" 
+              className="flex flex-col items-center gap-2 h-auto py-2"
+              onClick={() => navigate('/deposit')}
+            >
               <div className="w-12 h-12 bg-orange-100 rounded-full flex items-center justify-center">
                 <svg className="h-6 w-6 text-orange-500" viewBox="0 0 24 24">
                   <path d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" stroke="currentColor" fill="none" strokeWidth="2" strokeLinecap="round"/>
