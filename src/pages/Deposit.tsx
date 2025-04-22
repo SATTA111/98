@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { ArrowLeft, ChevronRight } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
@@ -24,7 +23,6 @@ const Deposit = () => {
       </div>
 
       <div className="p-4 space-y-4">
-        {/* Balance Card */}
         <Card className="bg-gradient-to-r from-red-400 to-red-500 p-4 text-white rounded-xl">
           <div className="flex items-center justify-between">
             <div>
@@ -35,7 +33,6 @@ const Deposit = () => {
           </div>
         </Card>
 
-        {/* Payment Methods Grid */}
         <div className="grid grid-cols-2 gap-4">
           <Card className="p-4 flex flex-col items-center text-center bg-gradient-to-br from-red-50 to-red-100">
             <div className="text-2xl mb-1">🅰️</div>
@@ -61,7 +58,6 @@ const Deposit = () => {
           </Card>
         </div>
 
-        {/* AR Pay Transaction Rules */}
         <Button variant="outline" className="w-full justify-between py-6">
           <div className="flex gap-2 items-center">
             <span className="text-red-500">📜</span>
@@ -70,12 +66,15 @@ const Deposit = () => {
           <ChevronRight className="h-5 w-5 text-gray-400" />
         </Button>
 
-        {/* AR Wallet Section */}
         <div className="space-y-4">
           <div className="bg-white rounded-xl p-4">
             <div className="flex items-center justify-between mb-4">
               <div className="flex items-center gap-2">
-                <span className="text-2xl">🅰️</span>
+                <img 
+                  src="/lovable-uploads/8c319a46-a577-4aff-8fc2-23cda0867d02.png" 
+                  alt="Wallet Icon" 
+                  className="w-8 h-8"
+                />
                 <h3 className="text-lg font-medium">AR Wallet</h3>
               </div>
               <Button variant="secondary" className="bg-red-500 hover:bg-red-600 text-white">
