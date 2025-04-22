@@ -1,12 +1,15 @@
 
 import React from 'react';
-import { Button } from '@/components/ui/button';
-import { Copy } from 'lucide-react';
+import { Copy, ChevronRight, History, Wallet, Gift, Languages, BarChart3 } from 'lucide-react';
 import { toast } from 'sonner';
+import { Button } from '@/components/ui/button';
+import { Badge } from '@/components/ui/badge';
 import BottomNav from '@/components/BottomNav';
 
 const AccountPage = () => {
   const uid = Math.random().toString(36).substring(2, 10).toUpperCase();
+  const lastLogin = new Date().toLocaleString();
+  const balance = 0.51;
 
   const copyUID = () => {
     navigator.clipboard.writeText(uid);
@@ -15,7 +18,7 @@ const AccountPage = () => {
 
   return (
     <div className="min-h-screen bg-gray-50 pb-20">
-      <div className="bg-gradient-to-b from-purple-600 to-purple-800 p-6 text-white">
+      <div className="bg-gradient-to-b from-red-400 to-red-500 p-6 text-white rounded-b-[2rem]">
         <div className="flex flex-col items-center pt-4">
           <div className="w-20 h-20 bg-gray-300 rounded-full mb-3 overflow-hidden">
             <img 
@@ -24,63 +27,136 @@ const AccountPage = () => {
               className="w-full h-full object-cover"
             />
           </div>
-          <div className="flex items-center gap-2 mt-2">
-            <p className="text-lg">UID: {uid}</p>
+          <h2 className="text-xl font-bold mb-2">MEMBERNNGWRTRH</h2>
+          <div className="flex items-center gap-2">
+            <span>UID: {uid}</span>
             <Button 
               variant="ghost" 
               size="icon"
-              className="text-white hover:bg-white/20"
+              className="text-white hover:bg-white/20 h-8 w-8"
               onClick={copyUID}
             >
               <Copy className="h-4 w-4" />
             </Button>
           </div>
+          <p className="text-sm mt-1">Last login: {lastLogin}</p>
         </div>
       </div>
 
-      <div className="p-4 space-y-4">
-        <div className="bg-white rounded-lg shadow">
-          <div className="p-4 border-b">
-            <h3 className="text-lg font-medium">Security Center</h3>
+      <div className="p-4">
+        <div className="bg-white rounded-xl p-4 mb-4">
+          <h3 className="text-lg mb-2">Total balance</h3>
+          <div className="flex items-center">
+            <span className="text-2xl font-bold">₹{balance}</span>
+            <Button variant="ghost" size="icon" className="ml-2">
+              <svg className="h-4 w-4 rotate-90" viewBox="0 0 24 24">
+                <path d="M7 7h10v3l4-4-4-4v3H5v6h2V7zm10 10H7v-3l-4 4 4 4v-3h12v-6h-2v4z" fill="currentColor"/>
+              </svg>
+            </Button>
           </div>
-          <div className="p-4 space-y-4">
-            <div className="flex justify-between items-center">
-              <span>Phone Number</span>
-              <span className="text-gray-500">Not bound</span>
-            </div>
-            <div className="flex justify-between items-center">
-              <span>Email</span>
-              <span className="text-gray-500">Not bound</span>
-            </div>
-            <div className="flex justify-between items-center">
-              <span>Password</span>
-              <span className="text-gray-500">Change</span>
-            </div>
+
+          <div className="grid grid-cols-4 gap-4 mt-4">
+            <Button variant="ghost" className="flex flex-col items-center gap-2 h-auto py-2">
+              <div className="w-12 h-12 bg-red-100 rounded-full flex items-center justify-center">
+                <Wallet className="h-6 w-6 text-red-500" />
+              </div>
+              <span className="text-xs">ARWallet</span>
+            </Button>
+            <Button variant="ghost" className="flex flex-col items-center gap-2 h-auto py-2">
+              <div className="w-12 h-12 bg-orange-100 rounded-full flex items-center justify-center">
+                <svg className="h-6 w-6 text-orange-500" viewBox="0 0 24 24">
+                  <path d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" stroke="currentColor" fill="none" strokeWidth="2" strokeLinecap="round"/>
+                </svg>
+              </div>
+              <span className="text-xs">Deposit</span>
+            </Button>
+            <Button variant="ghost" className="flex flex-col items-center gap-2 h-auto py-2">
+              <div className="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center">
+                <svg className="h-6 w-6 text-blue-500" viewBox="0 0 24 24">
+                  <path d="M15 12H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z" stroke="currentColor" fill="none" strokeWidth="2" strokeLinecap="round"/>
+                </svg>
+              </div>
+              <span className="text-xs">Withdraw</span>
+            </Button>
+            <Button variant="ghost" className="flex flex-col items-center gap-2 h-auto py-2">
+              <div className="w-12 h-12 bg-emerald-100 rounded-full flex items-center justify-center text-2xl">
+                V
+              </div>
+              <span className="text-xs">VIP</span>
+            </Button>
           </div>
         </div>
 
-        <div className="bg-white rounded-lg shadow">
-          <div className="p-4">
-            <h3 className="text-lg font-medium mb-4">Account</h3>
-            <div className="space-y-4">
-              <div className="flex justify-between items-center">
-                <span>Nickname</span>
-                <span className="text-gray-500">User_{uid}</span>
-              </div>
-              <div className="flex justify-between items-center">
-                <span>Language</span>
-                <span className="text-gray-500">English</span>
-              </div>
+        <div className="grid grid-cols-2 gap-4 mb-4">
+          <Button variant="outline" className="h-auto p-4 flex items-start gap-3">
+            <div className="w-10 h-10 bg-blue-100 rounded-lg flex items-center justify-center">
+              <History className="h-5 w-5 text-blue-500" />
             </div>
-          </div>
+            <div className="text-left">
+              <div className="font-medium">Game History</div>
+              <div className="text-sm text-gray-500">My game history</div>
+            </div>
+          </Button>
+          <Button variant="outline" className="h-auto p-4 flex items-start gap-3">
+            <div className="w-10 h-10 bg-emerald-100 rounded-lg flex items-center justify-center">
+              <History className="h-5 w-5 text-emerald-500" />
+            </div>
+            <div className="text-left">
+              <div className="font-medium">Transaction</div>
+              <div className="text-sm text-gray-500">My transaction history</div>
+            </div>
+          </Button>
         </div>
 
-        <Button 
-          variant="destructive" 
-          className="w-full"
-        >
-          Sign Out
-        </Button>
+        <div className="space-y-4">
+          <Button variant="outline" className="w-full justify-between h-auto py-4">
+            <div className="flex gap-3 items-center">
+              <div className="w-10 h-10 bg-red-100 rounded-full flex items-center justify-center">
+                <svg className="h-5 w-5 text-red-500" viewBox="0 0 24 24">
+                  <path d="M15 17h5l-1.4-1.4a6 6 0 00-3.6-1.6M9 17v1a2 2 0 002 2h9a2 2 0 002-2v-1M8 16h8M8 20h8M8 12h8M12 3v7" stroke="currentColor" fill="none" strokeWidth="2" strokeLinecap="round"/>
+                </svg>
+              </div>
+              <span>Notification</span>
+            </div>
+            <div className="flex items-center gap-2">
+              <Badge variant="destructive" className="rounded-full">62</Badge>
+              <ChevronRight className="h-5 w-5 text-gray-400" />
+            </div>
+          </Button>
+
+          <Button variant="outline" className="w-full justify-between h-auto py-4">
+            <div className="flex gap-3 items-center">
+              <div className="w-10 h-10 bg-red-100 rounded-full flex items-center justify-center">
+                <Gift className="h-5 w-5 text-red-500" />
+              </div>
+              <span>Gifts</span>
+            </div>
+            <ChevronRight className="h-5 w-5 text-gray-400" />
+          </Button>
+
+          <Button variant="outline" className="w-full justify-between h-auto py-4">
+            <div className="flex gap-3 items-center">
+              <div className="w-10 h-10 bg-red-100 rounded-full flex items-center justify-center">
+                <BarChart3 className="h-5 w-5 text-red-500" />
+              </div>
+              <span>Game statistics</span>
+            </div>
+            <ChevronRight className="h-5 w-5 text-gray-400" />
+          </Button>
+
+          <Button variant="outline" className="w-full justify-between h-auto py-4">
+            <div className="flex gap-3 items-center">
+              <div className="w-10 h-10 bg-red-100 rounded-full flex items-center justify-center">
+                <Languages className="h-5 w-5 text-red-500" />
+              </div>
+              <span>Language</span>
+            </div>
+            <div className="flex items-center gap-2">
+              <span className="text-gray-500">English</span>
+              <ChevronRight className="h-5 w-5 text-gray-400" />
+            </div>
+          </Button>
+        </div>
       </div>
 
       <BottomNav />
