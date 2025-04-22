@@ -1,13 +1,13 @@
 
 import React from 'react';
-import { lobby, mini-game as MiniGame, slots, card, fishing } from 'lucide-react';
+import { Gamepad2 as Lobby, LayoutGrid as MiniGame, Dice as Slots, CreditCard as Card, Fish as Fishing } from 'lucide-react';
 
 const categories = [
-  { icon: lobby, label: 'Lobby' },
+  { icon: Lobby, label: 'Lobby' },
   { icon: MiniGame, label: 'Mini game' },
-  { icon: slots, label: 'Slots' },
-  { icon: card, label: 'Card' },
-  { icon: fishing, label: 'Fishing' },
+  { icon: Slots, label: 'Slots' },
+  { icon: Card, label: 'Card' },
+  { icon: Fishing, label: 'Fishing' },
 ];
 
 const GameCategories = () => {
