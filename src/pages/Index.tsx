@@ -5,11 +5,13 @@ import ActionButtons from '@/components/ActionButtons';
 import FeatureCards from '@/components/FeatureCards';
 import GameCategories from '@/components/GameCategories';
 import BottomNav from '@/components/BottomNav';
+import PromoCarousel from '@/components/PromoCarousel';
 
 const Index = () => {
   return (
     <div className="min-h-screen bg-gray-50 pb-20">
       <Header />
+      <PromoCarousel />
       <ActionButtons />
       <FeatureCards />
       <div className="bg-white rounded-t-3xl mt-4 shadow-lg">
