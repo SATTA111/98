@@ -4,10 +4,58 @@ import { ArrowLeft, ChevronRight } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
+import { toast } from "@/hooks/use-toast";
+
+const depositMethods = [
+  {
+    key: "qr-upi",
+    label: "QR UPI",
+    emoji: "💳",
+    enabled: true,
+  },
+  {
+    key: "upi-qr-pay",
+    label: "UPI-QR PAY",
+    emoji: "📱",
+    enabled: true,
+  },
+  {
+    key: "arpay",
+    label: "ARPay",
+    emoji: "🅰️",
+    badge: "+1%",
+    badgeColor: "text-red-500",
+    enabled: false,
+  },
+  {
+    key: "expert-paytm",
+    label: "Expert Paytm-QR",
+    emoji: "🔄",
+    enabled: false,
+  },
+  {
+    key: "usdt",
+    label: "USDT",
+    emoji: "💲",
+    badge: "+2%",
+    badgeColor: "text-green-500",
+    enabled: false,
+  },
+];
 
 const Deposit = () => {
   const navigate = useNavigate();
   const balance = 0.51;
+
+  const handleDepositMethodClick = (enabled: boolean, method: string) => {
+    if (!enabled) return;
+    toast({
+      title: "Minimum Deposit Required",
+      description: "Minimum deposit is ₹500 to continue.",
+      variant: "destructive",
+    });
+    // Add future logic here for when method is enabled and clicked
+  };
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -47,28 +95,27 @@ const Deposit = () => {
         </Card>
 
         <div className="grid grid-cols-2 gap-4">
-          <Card className="p-4 flex flex-col items-center text-center bg-gradient-to-br from-red-50 to-red-100">
-            <div className="text-2xl mb-1">🅰️</div>
-            <div className="text-sm font-medium">ARPay</div>
-            <div className="text-xs text-red-500">+1%</div>
-          </Card>
-          <Card className="p-4 flex flex-col items-center text-center">
-            <div className="text-2xl mb-1">💳</div>
-            <div className="text-sm font-medium">QR UPI</div>
-          </Card>
-          <Card className="p-4 flex flex-col items-center text-center">
-            <div className="text-2xl mb-1">🔄</div>
-            <div className="text-sm font-medium">Expert Paytm-QR</div>
-          </Card>
-          <Card className="p-4 flex flex-col items-center text-center">
-            <div className="text-2xl mb-1">📱</div>
-            <div className="text-sm font-medium">UPI-QR PAY</div>
-          </Card>
-          <Card className="p-4 flex flex-col items-center text-center bg-gradient-to-br from-green-50 to-green-100">
-            <div className="text-2xl mb-1">💲</div>
-            <div className="text-sm font-medium">USDT</div>
-            <div className="text-xs text-green-500">+2%</div>
-          </Card>
+          {depositMethods.map((method) => (
+            <Card
+              key={method.key}
+              className={
+                "p-4 flex flex-col items-center text-center transition-opacity relative select-none " +
+                (!method.enabled
+                  ? "opacity-50 pointer-events-none"
+                  : "cursor-pointer hover:shadow-lg hover:bg-red-50")
+              }
+              onClick={() => handleDepositMethodClick(method.enabled, method.key)}
+            >
+              <div className="text-2xl mb-1">{method.emoji}</div>
+              <div className="text-sm font-medium">{method.label}</div>
+              {method.badge && (
+                <div className={`text-xs ${method.badgeColor}`}>{method.badge}</div>
+              )}
+              {!method.enabled && (
+                <span className="absolute inset-0 rounded-xl z-10"></span>
+              )}
+            </Card>
+          ))}
         </div>
 
         <Button variant="outline" className="w-full justify-between py-6">
