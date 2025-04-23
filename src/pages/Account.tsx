@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Copy, ChevronRight, History, Wallet, Gift, Languages, BarChart3 } from 'lucide-react';
 import { toast } from 'sonner';
 import { Button } from '@/components/ui/button';
@@ -9,7 +9,18 @@ import { useNavigate } from 'react-router-dom';
 const AccountPage = () => {
   const uid = Math.random().toString(36).substring(2, 10).toUpperCase();
   const lastLogin = new Date().toLocaleString();
-  const balance = 0.51;
+  const [balance, setBalance] = useState(0.51);
+
+  useEffect(() => {
+    const storedBalance = localStorage.getItem('walletBalance');
+    setBalance(storedBalance ? parseFloat(storedBalance) : 0);
+    const fn = () => {
+      const latestBalance = localStorage.getItem('walletBalance');
+      setBalance(latestBalance ? parseFloat(latestBalance) : 0);
+    };
+    window.addEventListener("storage", fn);
+    return () => window.removeEventListener("storage", fn);
+  }, []);
 
   const copyUID = () => {
     navigator.clipboard.writeText(uid);
@@ -49,7 +60,7 @@ const AccountPage = () => {
         <div className="bg-white rounded-xl p-4 mb-4">
           <h3 className="text-lg mb-2">Total balance</h3>
           <div className="flex items-center">
-            <span className="text-2xl font-bold">₹{balance}</span>
+            <span className="text-2xl font-bold">₹{balance.toFixed(2)}</span>
             <Button variant="ghost" size="icon" className="ml-2">
               <svg className="h-4 w-4 rotate-90" viewBox="0 0 24 24">
                 <path d="M7 7h10v3l4-4-4-4v3H5v6h2V7zm10 10H7v-3l-4 4 4 4v-3h12v-6h-2v4z" fill="currentColor"/>

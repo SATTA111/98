@@ -52,11 +52,17 @@ const Deposit = () => {
   const [upiMethodLabel, setUPIMethodLabel] = useState("");
 
   useEffect(() => {
-    const storedBalance = localStorage.getItem('walletBalance');
-    if (storedBalance) {
-      setBalance(parseFloat(storedBalance));
-    }
-  }, []);
+    const updateBalance = () => {
+      const storedBalance = localStorage.getItem('walletBalance');
+      setBalance(storedBalance ? parseFloat(storedBalance) : 0);
+    };
+    updateBalance();
+
+    window.addEventListener("storage", updateBalance);
+    return () => {
+      window.removeEventListener("storage", updateBalance);
+    };
+  }, [upiSheetOpen]);
 
   const updatedDepositMethods = depositMethods.map((method) => ({
     ...method,

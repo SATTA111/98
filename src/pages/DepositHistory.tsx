@@ -1,5 +1,5 @@
 
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { ArrowLeft } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
@@ -13,8 +13,6 @@ import {
 } from '@/components/ui/table';
 import { format } from 'date-fns';
 
-// We'll store deposit history in localStorage for now
-// In a real app, this would come from an API/database
 type DepositRecord = {
   id: string;
   amount: number;
@@ -32,7 +30,23 @@ const getDepositHistory = (): DepositRecord[] => {
 
 const DepositHistory = () => {
   const navigate = useNavigate();
-  const depositHistory = getDepositHistory();
+  const [depositHistory, setDepositHistory] = useState<DepositRecord[]>([]);
+  const [balance, setBalance] = useState(0);
+
+  useEffect(() => {
+    setDepositHistory(getDepositHistory());
+    const bal = localStorage.getItem('walletBalance');
+    setBalance(bal ? parseFloat(bal) : 0);
+
+    // Listen for deposit or storage changes (for live updating)
+    const updateHistory = () => {
+      setDepositHistory(getDepositHistory());
+      const nb = localStorage.getItem('walletBalance');
+      setBalance(nb ? parseFloat(nb) : 0);
+    };
+    window.addEventListener('storage', updateHistory);
+    return () => window.removeEventListener('storage', updateHistory);
+  }, []);
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -42,6 +56,9 @@ const DepositHistory = () => {
             <ArrowLeft className="h-6 w-6" />
           </Button>
           <h1 className="text-xl font-semibold flex-1">Deposit History</h1>
+          <div className="bg-gray-50 text-black px-4 py-2 rounded-lg text-sm font-semibold">
+            Balance: ₹{balance.toFixed(2)}
+          </div>
         </div>
       </div>
 
