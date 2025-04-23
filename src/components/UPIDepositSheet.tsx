@@ -1,8 +1,7 @@
-
 import React, { useState, useRef, useEffect } from "react";
 import { Drawer, DrawerContent, DrawerHeader, DrawerTitle, DrawerClose } from "@/components/ui/drawer";
 import { Button } from "@/components/ui/button";
-import { BookText, timer } from "lucide-react";
+import { BookText, Timer } from "lucide-react";
 
 const UPI_CHANNELS = [
   { key: "rujia", label: "RuJia-QR", limit: "200 - 50K" },
@@ -13,7 +12,6 @@ const UPI_CHANNELS = [
   { key: "iceqr", label: "ICE-QR", limit: "200 - 50K" },
   { key: "yayapay", label: "YayaPay-QR", limit: "300 - 50K" },
   { key: "superqr", label: "Super-QR", limit: "100 - 50K" },
-  // Removed last two channels as requested
 ];
 
 const AMOUNTS = [
@@ -106,7 +104,7 @@ const QrPaymentSection: React.FC<{
           }}
         />
         <div className="flex items-center gap-1 px-3 py-2 rounded bg-gray-100 text-red-500 font-medium">
-          <timer className="w-4 h-4 mr-1" />
+          <Timer className="w-4 h-4 mr-1" />
           {minutes}:{seconds.toString().padStart(2, "0")}
         </div>
       </div>
@@ -298,4 +296,3 @@ const UPIDepositSheet: React.FC<UPIProps> = ({
 };
 
 export default UPIDepositSheet;
-
