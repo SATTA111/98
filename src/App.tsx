@@ -1,4 +1,3 @@
-
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -9,6 +8,7 @@ import Account from "./pages/Account";
 import Deposit from "./pages/Deposit";
 import DepositHistory from "./pages/DepositHistory";
 import NotFound from "./pages/NotFound";
+import Gift from "./pages/Gift";
 
 const queryClient = new QueryClient();
 
@@ -23,6 +23,7 @@ const App = () => (
           <Route path="/account" element={<Account />} />
           <Route path="/deposit" element={<Deposit />} />
           <Route path="/deposit-history" element={<DepositHistory />} />
+          <Route path="/gift" element={<Gift />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </BrowserRouter>

@@ -34,8 +34,8 @@ const AccountPage = () => {
       <div className="bg-gradient-to-b from-red-400 to-red-500 p-6 text-white rounded-b-[2rem]">
         <div className="flex flex-col items-center pt-4">
           <div className="w-20 h-20 bg-gray-300 rounded-full mb-3 overflow-hidden">
-            <img 
-              src="/lovable-uploads/42dbdaac-2f43-4be7-8960-25e847403cce.png" 
+            <img
+              src="/lovable-uploads/42dbdaac-2f43-4be7-8960-25e847403cce.png"
               alt="Profile"
               className="w-full h-full object-cover"
             />
@@ -43,8 +43,8 @@ const AccountPage = () => {
           <h2 className="text-xl font-bold mb-2">MEMBERNNGWRTRH</h2>
           <div className="flex items-center gap-2">
             <span>UID: {uid}</span>
-            <Button 
-              variant="ghost" 
+            <Button
+              variant="ghost"
               size="icon"
               className="text-white hover:bg-white/20 h-8 w-8"
               onClick={copyUID}
@@ -67,7 +67,6 @@ const AccountPage = () => {
               </svg>
             </Button>
           </div>
-
           <div className="grid grid-cols-4 gap-4 mt-4">
             <Button variant="ghost" className="flex flex-col items-center gap-2 h-auto py-2">
               <div className="w-12 h-12 bg-red-100 rounded-full flex items-center justify-center">
@@ -75,8 +74,8 @@ const AccountPage = () => {
               </div>
               <span className="text-xs">ARWallet</span>
             </Button>
-            <Button 
-              variant="ghost" 
+            <Button
+              variant="ghost"
               className="flex flex-col items-center gap-2 h-auto py-2"
               onClick={() => navigate('/deposit')}
             >
@@ -126,22 +125,11 @@ const AccountPage = () => {
         </div>
 
         <div className="space-y-4">
-          <Button variant="outline" className="w-full justify-between h-auto py-4">
-            <div className="flex gap-3 items-center">
-              <div className="w-10 h-10 bg-red-100 rounded-full flex items-center justify-center">
-                <svg className="h-5 w-5 text-red-500" viewBox="0 0 24 24">
-                  <path d="M15 17h5l-1.4-1.4a6 6 0 00-3.6-1.6M9 17v1a2 2 0 002 2h9a2 2 0 002-2v-1M8 16h8M8 20h8M8 12h8M12 3v7" stroke="currentColor" fill="none" strokeWidth="2" strokeLinecap="round"/>
-                </svg>
-              </div>
-              <span>Notification</span>
-            </div>
-            <div className="flex items-center gap-2">
-              <Badge variant="destructive" className="rounded-full">62</Badge>
-              <ChevronRight className="h-5 w-5 text-gray-400" />
-            </div>
-          </Button>
-
-          <Button variant="outline" className="w-full justify-between h-auto py-4">
+          <Button
+            variant="outline"
+            className="w-full justify-between h-auto py-4"
+            onClick={() => navigate("/gift")}
+          >
             <div className="flex gap-3 items-center">
               <div className="w-10 h-10 bg-red-100 rounded-full flex items-center justify-center">
                 <Gift className="h-5 w-5 text-red-500" />
