@@ -1,6 +1,5 @@
-
 import React, { useState, useEffect } from "react";
-import { ArrowLeft, Gift as GiftIcon, wallet } from "lucide-react";
+import { ArrowLeft, Gift as GiftIcon, Wallet } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useNavigate } from "react-router-dom";
 import { Input } from "@/components/ui/input";
@@ -177,4 +176,3 @@ const GiftPage = () => {
 };
 
 export default GiftPage;
-
