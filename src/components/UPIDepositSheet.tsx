@@ -1,9 +1,9 @@
-
 import React, { useState, useRef, useEffect } from "react";
 import { Drawer, DrawerContent, DrawerHeader, DrawerTitle, DrawerClose } from "@/components/ui/drawer";
 import { Button } from "@/components/ui/button";
 import { BookText, Timer } from "lucide-react";
 import { toast } from "@/hooks/use-toast";
+import { useNavigate } from "react-router-dom";
 
 const UPI_CHANNELS = [
   { key: "rujia", label: "RuJia-QR", limit: "200 - 50K" },
@@ -38,16 +38,41 @@ type UPIProps = {
 
 const isValidUTR = (utr: string) => /^[0-9]{12}[a-zA-Z]{3}$/.test(utr);
 
+const saveDepositHistory = (amount: number, utr: string, method: string) => {
+  const depositRecord = {
+    id: Date.now().toString(),
+    amount,
+    utr,
+    method,
+    timestamp: new Date().toISOString(),
+    status: 'success' as const
+  };
+
+  const existingHistory = localStorage.getItem('depositHistory');
+  const depositHistory = existingHistory ? JSON.parse(existingHistory) : [];
+  
+  depositHistory.unshift(depositRecord);
+  localStorage.setItem('depositHistory', JSON.stringify(depositHistory));
+
+  const currentBalance = localStorage.getItem('walletBalance');
+  const balance = currentBalance ? parseFloat(currentBalance) : 0;
+  const newBalance = balance + amount;
+  localStorage.setItem('walletBalance', newBalance.toString());
+  
+  return depositRecord;
+};
+
 const QrPaymentSection: React.FC<{
   amount: number;
   onBack: () => void;
   onSuccess: () => void;
-}> = ({ amount, onBack, onSuccess }) => {
-  // 2 minute countdown
+  channelLabel: string;
+}> = ({ amount, onBack, onSuccess, channelLabel }) => {
   const [secondsLeft, setSecondsLeft] = useState(120);
   const [utr, setUtr] = useState("");
   const intervalRef = useRef<NodeJS.Timeout | null>(null);
   const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (secondsLeft <= 0) return;
@@ -67,27 +92,30 @@ const QrPaymentSection: React.FC<{
   const minutes = Math.floor(Math.max(0, secondsLeft) / 60);
   const seconds = Math.max(0, secondsLeft) % 60;
 
-  // New: handle submit
   const handleSubmit = (e: React.FormEvent<HTMLButtonElement>) => {
     e.preventDefault();
-    // Only enable if valid
     if (isValidUTR(utr)) {
       setLoading(true);
       setTimeout(() => {
+        saveDepositHistory(amount, utr, channelLabel);
+        
         setLoading(false);
         toast({
-          title: "Deposit saved!",
-          description: `UTR: ${utr}`,
+          title: "Deposit successful!",
+          description: `₹${amount} added to your wallet.`,
           duration: 3000,
         });
         onSuccess();
+        
+        setTimeout(() => {
+          navigate('/deposit-history');
+        }, 500);
       }, 1000);
     }
   };
 
   return (
     <div className="px-4 pt-1 pb-4">
-      {/* Deposit top header (custom icon) */}
       <div className="flex items-center gap-2 mb-3">
         <img
           src="/lovable-uploads/03a02263-2f03-40f1-8a7c-dd17b6cf8735.png"
@@ -103,7 +131,6 @@ const QrPaymentSection: React.FC<{
           Change
         </Button>
       </div>
-      {/* QR Code */}
       <div className="flex flex-col items-center my-4">
         <img
           src="/lovable-uploads/03a02263-2f03-40f1-8a7c-dd17b6cf8735.png"
@@ -115,16 +142,13 @@ const QrPaymentSection: React.FC<{
           Pay ₹{amount < 1000 ? amount : `${amount / 1000}K`} via UPI
         </div>
       </div>
-      {/* UTR Input & timer */}
       <div className="flex items-center gap-2 mb-3">
         <input
           className="flex-1 border rounded px-3 py-2 text-base focus:outline-none focus:ring-2 focus:ring-red-400"
           placeholder="Enter UTR number (12 digits + 3 letters)"
           value={utr}
           onChange={(e) => {
-            // Only allow max 15 chars, first 0-12: number, last 13-15: letter
             let val = e.target.value.replace(/[^0-9a-zA-Z]/g, "").slice(0, 15);
-            // Only allow numbers in first 12, rest must be letters
             if (val.length > 12) {
               val =
                 val.slice(0, 12).replace(/[^0-9]/g, "") +
@@ -163,8 +187,8 @@ const UPIDepositSheet: React.FC<UPIProps> = ({
   const [selectedChannel, setSelectedChannel] = useState(UPI_CHANNELS[0].key);
   const [selectedAmount, setSelectedAmount] = useState<number | null>(null);
   const [showQRSection, setShowQRSection] = useState(false);
+  const navigate = useNavigate();
 
-  // Reset all on close
   useEffect(() => {
     if (!open) {
       setSelectedChannel(UPI_CHANNELS[0].key);
@@ -181,7 +205,6 @@ const UPIDepositSheet: React.FC<UPIProps> = ({
             <>
               <DrawerHeader>
                 <div className="flex items-center gap-2">
-                  {/* Custom Deposit Icon */}
                   <img
                     src="/lovable-uploads/03a02263-2f03-40f1-8a7c-dd17b6cf8735.png"
                     alt="Deposit icon"
@@ -193,12 +216,18 @@ const UPIDepositSheet: React.FC<UPIProps> = ({
                   <DrawerClose>
                     <Button variant="ghost" size="icon"><span className="sr-only">Close</span>✕</Button>
                   </DrawerClose>
-                  <Button variant="ghost" className="text-red-400 font-medium text-sm px-0" disabled>
+                  <Button 
+                    variant="ghost" 
+                    className="text-red-400 font-medium text-sm px-0"
+                    onClick={() => {
+                      onOpenChange(false);
+                      navigate('/deposit-history');
+                    }}
+                  >
                     Deposit history
                   </Button>
                 </div>
               </DrawerHeader>
-              {/* Channel */}
               <div className="px-4 mt-4 mb-2">
                 <div className="flex items-center gap-2 mb-2">
                   <BookText className="h-5 w-5 text-red-500" />
@@ -225,10 +254,8 @@ const UPIDepositSheet: React.FC<UPIProps> = ({
                   ))}
                 </div>
               </div>
-              {/* Amount */}
               <div className="px-4 mt-4">
                 <div className="flex items-center gap-2 mb-2">
-                  {/* Custom Amount Icon */}
                   <img
                     src="/lovable-uploads/03a02263-2f03-40f1-8a7c-dd17b6cf8735.png"
                     alt="amount"
@@ -279,7 +306,6 @@ const UPIDepositSheet: React.FC<UPIProps> = ({
                   )}
                 </div>
               </div>
-              {/* Instructions */}
               <div className="px-4 mt-5">
                 <div className="flex items-center gap-2 mb-2">
                   <BookText className="h-5 w-5 text-red-500" />
@@ -296,7 +322,6 @@ const UPIDepositSheet: React.FC<UPIProps> = ({
                   </ul>
                 </div>
               </div>
-              {/* Recharge method & Deposit button */}
               <div className="fixed left-0 right-0 bottom-0 p-3 border-t bg-white z-20 max-w-md mx-auto">
                 <div className="flex items-center justify-between mb-3">
                   <div>
@@ -324,6 +349,7 @@ const UPIDepositSheet: React.FC<UPIProps> = ({
               amount={selectedAmount || 0}
               onBack={() => setShowQRSection(false)}
               onSuccess={() => onOpenChange(false)}
+              channelLabel={UPI_CHANNELS.find((c) => c.key === selectedChannel)?.label || ""}
             />
           )}
         </div>

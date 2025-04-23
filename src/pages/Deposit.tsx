@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { ArrowLeft, ChevronRight } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
@@ -47,10 +47,16 @@ const UPI_METHODS = ["qr-upi", "upi-qr-pay"];
 
 const Deposit = () => {
   const navigate = useNavigate();
-  const balance = 0.51;
-
+  const [balance, setBalance] = useState(0.51);
   const [upiSheetOpen, setUPISheetOpen] = useState(false);
   const [upiMethodLabel, setUPIMethodLabel] = useState("");
+
+  useEffect(() => {
+    const storedBalance = localStorage.getItem('walletBalance');
+    if (storedBalance) {
+      setBalance(parseFloat(storedBalance));
+    }
+  }, []);
 
   const updatedDepositMethods = depositMethods.map((method) => ({
     ...method,
@@ -97,7 +103,7 @@ const Deposit = () => {
             <div>
               <span className="text-sm opacity-90">💰 Balance</span>
               <div className="flex items-center gap-2">
-                <span className="text-2xl font-bold">₹{balance}</span>
+                <span className="text-2xl font-bold">₹{balance.toFixed(2)}</span>
                 <img
                   src="/lovable-uploads/ee23f973-1a50-4f55-9c73-26e91c2d26a2.png"
                   alt="VIP Icon"
@@ -191,7 +197,10 @@ const Deposit = () => {
         </div>
 
         <div className="fixed bottom-0 left-0 right-0 p-4 bg-white border-t">
-          <Button className="w-full bg-gradient-to-r from-red-400 to-red-500 text-white h-12">
+          <Button 
+            className="w-full bg-gradient-to-r from-red-400 to-red-500 text-white h-12"
+            onClick={() => setUPISheetOpen(true)}
+          >
             Deposit
           </Button>
         </div>
