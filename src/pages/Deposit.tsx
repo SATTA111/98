@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { ArrowLeft, ChevronRight } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
@@ -27,7 +28,15 @@ const Deposit = () => {
           <div className="flex items-center justify-between">
             <div>
               <span className="text-sm opacity-90">💰 Balance</span>
-              <div className="text-2xl font-bold">₹{balance}</div>
+              <div className="flex items-center gap-2">
+                <span className="text-2xl font-bold">₹{balance}</span>
+                <img
+                  src="/lovable-uploads/ee23f973-1a50-4f55-9c73-26e91c2d26a2.png"
+                  alt="VIP Icon"
+                  className="w-7 h-7"
+                  style={{ objectFit: "contain" }}
+                />
+              </div>
             </div>
             <img 
               src="/lovable-uploads/ac524e01-6057-4b93-a412-38eb33dee467.png" 

@@ -36,6 +36,20 @@ const Index = () => {
                 className="w-full h-full object-cover"
               />
             </div>
+            <div className="aspect-video rounded-xl overflow-hidden">
+              <img
+                src="/lovable-uploads/99f5658b-c78f-46b0-a1b6-f0694bbd5fa6.png"
+                alt="5D"
+                className="w-full h-full object-cover"
+              />
+            </div>
+            <div className="aspect-video rounded-xl overflow-hidden">
+              <img
+                src="/lovable-uploads/ee23f973-1a50-4f55-9c73-26e91c2d26a2.png"
+                alt="TRX Wingo"
+                className="w-full h-full object-cover"
+              />
+            </div>
           </div>
         </div>
       </div>
