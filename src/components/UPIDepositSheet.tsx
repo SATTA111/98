@@ -1,7 +1,9 @@
+
 import React, { useState, useRef, useEffect } from "react";
 import { Drawer, DrawerContent, DrawerHeader, DrawerTitle, DrawerClose } from "@/components/ui/drawer";
 import { Button } from "@/components/ui/button";
 import { BookText, Timer } from "lucide-react";
+import { toast } from "@/hooks/use-toast";
 
 const UPI_CHANNELS = [
   { key: "rujia", label: "RuJia-QR", limit: "200 - 50K" },
@@ -34,15 +36,18 @@ type UPIProps = {
   methodLabel: string;
 };
 
+const isValidUTR = (utr: string) => /^[0-9]{12}[a-zA-Z]{3}$/.test(utr);
+
 const QrPaymentSection: React.FC<{
   amount: number;
   onBack: () => void;
   onSuccess: () => void;
-}> = ({ amount, onBack }) => {
+}> = ({ amount, onBack, onSuccess }) => {
   // 2 minute countdown
   const [secondsLeft, setSecondsLeft] = useState(120);
   const [utr, setUtr] = useState("");
   const intervalRef = useRef<NodeJS.Timeout | null>(null);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     if (secondsLeft <= 0) return;
@@ -61,6 +66,24 @@ const QrPaymentSection: React.FC<{
 
   const minutes = Math.floor(Math.max(0, secondsLeft) / 60);
   const seconds = Math.max(0, secondsLeft) % 60;
+
+  // New: handle submit
+  const handleSubmit = (e: React.FormEvent<HTMLButtonElement>) => {
+    e.preventDefault();
+    // Only enable if valid
+    if (isValidUTR(utr)) {
+      setLoading(true);
+      setTimeout(() => {
+        setLoading(false);
+        toast({
+          title: "Deposit saved!",
+          description: `UTR: ${utr}`,
+          duration: 3000,
+        });
+        onSuccess();
+      }, 1000);
+    }
+  };
 
   return (
     <div className="px-4 pt-1 pb-4">
@@ -96,20 +119,34 @@ const QrPaymentSection: React.FC<{
       <div className="flex items-center gap-2 mb-3">
         <input
           className="flex-1 border rounded px-3 py-2 text-base focus:outline-none focus:ring-2 focus:ring-red-400"
-          placeholder="Enter UTR number"
+          placeholder="Enter UTR number (12 digits + 3 letters)"
           value={utr}
           onChange={(e) => {
-            // only allow alphanumeric, max 16 chars
-            if (/^[a-zA-Z0-9]{0,16}$/.test(e.target.value)) setUtr(e.target.value);
+            // Only allow max 15 chars, first 0-12: number, last 13-15: letter
+            let val = e.target.value.replace(/[^0-9a-zA-Z]/g, "").slice(0, 15);
+            // Only allow numbers in first 12, rest must be letters
+            if (val.length > 12) {
+              val =
+                val.slice(0, 12).replace(/[^0-9]/g, "") +
+                val.slice(12, 15).replace(/[^a-zA-Z]/g, "");
+            } else {
+              val = val.replace(/[^0-9]/g, "");
+            }
+            setUtr(val);
           }}
+          maxLength={15}
         />
         <div className="flex items-center gap-1 px-3 py-2 rounded bg-gray-100 text-red-500 font-medium">
           <Timer className="w-4 h-4 mr-1" />
           {minutes}:{seconds.toString().padStart(2, "0")}
         </div>
       </div>
-      <Button className="w-full bg-gradient-to-r from-red-400 to-red-500 text-white" disabled={!utr || secondsLeft === 0}>
-        Submit
+      <Button
+        className="w-full bg-gradient-to-r from-red-400 to-red-500 text-white"
+        disabled={!isValidUTR(utr) || secondsLeft === 0 || loading}
+        onClick={handleSubmit}
+      >
+        {loading ? "Processing..." : "Submit"}
       </Button>
       <div className="mt-2 text-center text-xs text-gray-500">
         QR will expire once timer reaches 0. After expiry, you can restart the payment process.
