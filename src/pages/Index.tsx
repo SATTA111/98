@@ -46,36 +46,6 @@ const Index = () => {
                 className="w-full h-full object-cover"
               />
             </div>
-            <div className="aspect-video rounded-xl overflow-hidden cursor-pointer" onClick={handleGameClick}>
-              <img
-                src="/lovable-uploads/99f5658b-c78f-46b0-a1b6-f0694bbd5fa6.png"
-                alt="5D"
-                className="w-full h-full object-cover"
-              />
-            </div>
-            <div className="aspect-video rounded-xl overflow-hidden cursor-pointer" onClick={handleGameClick}>
-              <img
-                src="/lovable-uploads/ee23f973-1a50-4f55-9c73-26e91c2d26a2.png"
-                alt="TRX Wingo"
-                className="w-full h-full object-cover"
-              />
-            </div>
-            {/* Game 3 */}
-            <div className="aspect-video rounded-xl overflow-hidden cursor-pointer" onClick={handleGameClick}>
-              <img
-                src="/lovable-uploads/19271910-ffa5-4ade-b2e5-0f205e27c360.png"
-                alt="Game 3"
-                className="w-full h-full object-cover"
-              />
-            </div>
-            {/* Game 4 */}
-            <div className="aspect-video rounded-xl overflow-hidden cursor-pointer" onClick={handleGameClick}>
-              <img
-                src="/lovable-uploads/3228c377-b647-4185-a168-bb6876d1b82b.png"
-                alt="Game 4"
-                className="w-full h-full object-cover"
-              />
-            </div>
           </div>
         </div>
       </div>
@@ -85,4 +55,3 @@ const Index = () => {
 };
 
 export default Index;
-
