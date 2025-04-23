@@ -51,10 +51,11 @@ const UPIDepositSheet: React.FC<UPIProps> = ({
         <div className="max-w-md mx-auto w-full pt-2 pb-1 px-0">
           <DrawerHeader>
             <div className="flex items-center gap-2">
+              {/* Custom Deposit Icon */}
               <img
-                src="/lovable-uploads/02941850-fadb-4537-89c0-48e660916519.png"
+                src="/lovable-uploads/19271910-ffa5-4ade-b2e5-0f205e27c360.png"
                 alt="Deposit icon"
-                className="w-5 h-5"
+                className="w-6 h-6 object-contain"
               />
               <DrawerTitle className="text-lg font-semibold flex-1">
                 Deposit
@@ -99,10 +100,11 @@ const UPIDepositSheet: React.FC<UPIProps> = ({
           {/* Amount */}
           <div className="px-4 mt-4">
             <div className="flex items-center gap-2 mb-2">
+              {/* Custom Amount Icon */}
               <img
-                src="/lovable-uploads/b3001021-6de0-47f2-823e-b03db882917a.png"
+                src="/lovable-uploads/3228c377-b647-4185-a168-bb6876d1b82b.png"
                 alt="amount"
-                className="w-5 h-5"
+                className="w-6 h-6 object-contain"
               />
               <span className="font-medium text-base">Deposit amount</span>
             </div>
@@ -124,7 +126,11 @@ const UPIDepositSheet: React.FC<UPIProps> = ({
               ))}
             </div>
             <div className="flex items-center rounded-lg mt-3 bg-gray-100 px-3 py-2">
-              <IndianRupee className="h-5 w-5 text-red-400" />
+              <img
+                src="/lovable-uploads/3228c377-b647-4185-a168-bb6876d1b82b.png"
+                className="h-5 w-5 object-contain"
+                alt="Amount"
+              />
               <input
                 className="ml-2 bg-transparent outline-none w-full font-medium"
                 type="text"
@@ -190,3 +196,4 @@ const UPIDepositSheet: React.FC<UPIProps> = ({
 };
 
 export default UPIDepositSheet;
+
