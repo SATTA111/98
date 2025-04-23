@@ -1,10 +1,10 @@
-
-import React from 'react';
+import React, { useState } from 'react';
 import { ArrowLeft, ChevronRight } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { toast } from "@/hooks/use-toast";
+import UPIDepositSheet from '@/components/UPIDepositSheet';
 
 const depositMethods = [
   {
@@ -43,22 +43,36 @@ const depositMethods = [
   },
 ];
 
+const UPI_METHODS = ["qr-upi", "upi-qr-pay"];
+
 const Deposit = () => {
   const navigate = useNavigate();
   const balance = 0.51;
 
-  const handleDepositMethodClick = (enabled: boolean, method: string) => {
+  const [upiSheetOpen, setUPISheetOpen] = useState(false);
+  const [upiMethodLabel, setUPIMethodLabel] = useState("");
+
+  const handleDepositMethodClick = (enabled: boolean, method: string, label: string) => {
     if (!enabled) return;
-    toast({
-      title: "Minimum Deposit Required",
-      description: "Minimum deposit is ₹500 to continue.",
-      variant: "destructive",
-    });
-    // Add future logic here for when method is enabled and clicked
+    if (UPI_METHODS.includes(method)) {
+      setUPIMethodLabel(label);
+      setUPISheetOpen(true);
+    } else {
+      toast({
+        title: "Not available",
+        description: "This deposit method is not available yet.",
+        variant: "destructive",
+      });
+    }
   };
 
   return (
     <div className="min-h-screen bg-gray-50">
+      <UPIDepositSheet
+        open={upiSheetOpen}
+        onOpenChange={setUPISheetOpen}
+        methodLabel={upiMethodLabel}
+      />
       <div className="bg-white sticky top-0 z-10 border-b">
         <div className="flex items-center p-4 gap-4">
           <Button variant="ghost" size="icon" onClick={() => navigate(-1)}>
@@ -104,7 +118,7 @@ const Deposit = () => {
                   ? "opacity-50 pointer-events-none"
                   : "cursor-pointer hover:shadow-lg hover:bg-red-50")
               }
-              onClick={() => handleDepositMethodClick(method.enabled, method.key)}
+              onClick={() => handleDepositMethodClick(method.enabled, method.key, method.label)}
             >
               <div className="text-2xl mb-1">{method.emoji}</div>
               <div className="text-sm font-medium">{method.label}</div>
