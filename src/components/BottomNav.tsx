@@ -1,7 +1,8 @@
+
 import React from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { Link } from "react-router-dom";
-import { History, Wallet } from "lucide-react";
+import { History } from "lucide-react";
 
 const BottomNav = () => {
   const navigate = useNavigate();
@@ -32,10 +33,6 @@ const BottomNav = () => {
         <Link to="/account" className="flex flex-col items-center justify-center p-2">
           <span className="text-2xl">👤</span>
           <span className="text-xs">Account</span>
-        </Link>
-        <Link to="/withdraw" className="flex flex-col items-center justify-center p-2">
-          <Wallet className="w-6 h-6" />
-          <span className="text-xs mt-1">Withdraw</span>
         </Link>
         <Link to="/withdraw-history" className="flex flex-col items-center justify-center p-2">
           <History className="w-6 h-6" />
