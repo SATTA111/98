@@ -1,15 +1,16 @@
-
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Index from "./pages/Index";
 import Account from "./pages/Account";
 import Deposit from "./pages/Deposit";
 import DepositHistory from "./pages/DepositHistory";
 import NotFound from "./pages/NotFound";
 import Gift from "./pages/Gift";
+import Withdraw from "./pages/Withdraw";
+import WithdrawHistory from "./pages/WithdrawHistory";
 import React, { useEffect, useState } from "react";
 import LoginRegister from "@/components/LoginRegister";
 
@@ -46,20 +47,21 @@ const App = () => {
       <TooltipProvider>
         <Toaster />
         <Sonner />
-        <BrowserRouter>
+        <Router>
           <Routes>
             <Route path="/" element={<Index />} />
             <Route path="/account" element={<Account />} />
             <Route path="/deposit" element={<Deposit />} />
             <Route path="/deposit-history" element={<DepositHistory />} />
             <Route path="/gift" element={<Gift />} />
+            <Route path="/withdraw" element={<Withdraw />} />
+            <Route path="/withdraw-history" element={<WithdrawHistory />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
-        </BrowserRouter>
+        </Router>
       </TooltipProvider>
     </QueryClientProvider>
   );
 };
 
 export default App;
-
