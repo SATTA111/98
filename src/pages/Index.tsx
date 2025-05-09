@@ -1,5 +1,5 @@
 
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { ArrowUp, ArrowDown } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import Header from '@/components/Header';
@@ -11,6 +11,35 @@ import NotificationBanner from '@/components/NotificationBanner';
 
 const Index = () => {
   const navigate = useNavigate();
+  const [totalDeposit, setTotalDeposit] = useState(0);
+  const [totalWithdrawal, setTotalWithdrawal] = useState(0);
+  
+  // Effect to get deposit and withdrawal totals
+  useEffect(() => {
+    // Get deposit history and calculate total
+    const depositHistory = JSON.parse(localStorage.getItem('depositHistory') || '[]');
+    const depositTotal = depositHistory.reduce((sum, item) => sum + (parseFloat(item.amount) || 0), 0);
+    setTotalDeposit(depositTotal);
+    
+    // Get withdrawal history and calculate total
+    const withdrawHistory = JSON.parse(localStorage.getItem('withdrawHistory') || '[]');
+    const withdrawalTotal = withdrawHistory.reduce((sum, item) => sum + (parseFloat(item.amount) || 0), 0);
+    setTotalWithdrawal(withdrawalTotal);
+    
+    // Listen for changes in localStorage
+    const handleStorage = () => {
+      const newDepositHistory = JSON.parse(localStorage.getItem('depositHistory') || '[]');
+      const newDepositTotal = newDepositHistory.reduce((sum, item) => sum + (parseFloat(item.amount) || 0), 0);
+      setTotalDeposit(newDepositTotal);
+      
+      const newWithdrawHistory = JSON.parse(localStorage.getItem('withdrawHistory') || '[]');
+      const newWithdrawalTotal = newWithdrawHistory.reduce((sum, item) => sum + (parseFloat(item.amount) || 0), 0);
+      setTotalWithdrawal(newWithdrawalTotal);
+    };
+    
+    window.addEventListener('storage', handleStorage);
+    return () => window.removeEventListener('storage', handleStorage);
+  }, []);
   
   // Handler for game image click
   const handleGameClick = () => {
@@ -32,7 +61,7 @@ const Index = () => {
           <span className="text-yellow-500 text-lg">💰</span>
           <span className="text-gray-700 ml-2">Wallet balance</span>
         </div>
-        <div className="flex items-center justify-between mb-6">
+        <div className="flex items-center justify-between mb-4">
           <div className="flex items-center gap-2">
             <span className="text-2xl font-bold">₹0.15</span>
             <button className="p-1">
@@ -60,6 +89,18 @@ const Index = () => {
           </div>
         </div>
         
+        {/* Total deposit and withdrawal amounts */}
+        <div className="grid grid-cols-2 gap-4 mb-6 bg-gradient-to-r from-red-400 to-red-500 rounded-xl p-4 text-white text-center">
+          <div className="flex flex-col items-center">
+            <span className="text-xl font-bold">₹{totalWithdrawal.toFixed(2)}</span>
+            <span className="text-sm">Total amount</span>
+          </div>
+          <div className="flex flex-col items-center">
+            <span className="text-xl font-bold">₹{totalDeposit.toFixed(2)}</span>
+            <span className="text-sm">Total deposit amount</span>
+          </div>
+        </div>
+        
         <div className="grid grid-cols-2 gap-4 mb-6">
           <div className="relative h-20 rounded-xl overflow-hidden">
             <img 
@@ -67,11 +108,6 @@ const Index = () => {
               alt="Wheel of fortune"
               className="w-full h-full object-cover"
             />
-            <div className="absolute inset-0 flex items-center p-4">
-              <span className="text-white text-xl font-bold">
-                Wheel<br />of fortune
-              </span>
-            </div>
           </div>
           <div className="relative h-20 rounded-xl overflow-hidden">
             <img 
@@ -79,11 +115,6 @@ const Index = () => {
               alt="VIP privileges"
               className="w-full h-full object-cover"
             />
-            <div className="absolute inset-0 flex items-center p-4">
-              <span className="text-white text-xl font-bold">
-                VIP<br />privileges
-              </span>
-            </div>
           </div>
         </div>
       </div>
