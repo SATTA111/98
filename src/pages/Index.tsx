@@ -11,35 +11,6 @@ import NotificationBanner from '@/components/NotificationBanner';
 
 const Index = () => {
   const navigate = useNavigate();
-  const [totalDeposit, setTotalDeposit] = useState(0);
-  const [totalWithdrawal, setTotalWithdrawal] = useState(0);
-  
-  // Effect to get deposit and withdrawal totals
-  useEffect(() => {
-    // Get deposit history and calculate total
-    const depositHistory = JSON.parse(localStorage.getItem('depositHistory') || '[]');
-    const depositTotal = depositHistory.reduce((sum, item) => sum + (parseFloat(item.amount) || 0), 0);
-    setTotalDeposit(depositTotal);
-    
-    // Get withdrawal history and calculate total
-    const withdrawHistory = JSON.parse(localStorage.getItem('withdrawHistory') || '[]');
-    const withdrawalTotal = withdrawHistory.reduce((sum, item) => sum + (parseFloat(item.amount) || 0), 0);
-    setTotalWithdrawal(withdrawalTotal);
-    
-    // Listen for changes in localStorage
-    const handleStorage = () => {
-      const newDepositHistory = JSON.parse(localStorage.getItem('depositHistory') || '[]');
-      const newDepositTotal = newDepositHistory.reduce((sum, item) => sum + (parseFloat(item.amount) || 0), 0);
-      setTotalDeposit(newDepositTotal);
-      
-      const newWithdrawHistory = JSON.parse(localStorage.getItem('withdrawHistory') || '[]');
-      const newWithdrawalTotal = newWithdrawHistory.reduce((sum, item) => sum + (parseFloat(item.amount) || 0), 0);
-      setTotalWithdrawal(newWithdrawalTotal);
-    };
-    
-    window.addEventListener('storage', handleStorage);
-    return () => window.removeEventListener('storage', handleStorage);
-  }, []);
   
   // Handler for game image click
   const handleGameClick = () => {
@@ -86,18 +57,6 @@ const Index = () => {
               <ArrowDown className="h-5 w-5 mb-1" />
               <span>Deposit</span>
             </button>
-          </div>
-        </div>
-        
-        {/* Total deposit and withdrawal amounts */}
-        <div className="grid grid-cols-2 gap-4 mb-6 bg-gradient-to-r from-red-400 to-red-500 rounded-xl p-4 text-white text-center">
-          <div className="flex flex-col items-center">
-            <span className="text-xl font-bold">₹{totalWithdrawal.toFixed(2)}</span>
-            <span className="text-sm">Total amount</span>
-          </div>
-          <div className="flex flex-col items-center">
-            <span className="text-xl font-bold">₹{totalDeposit.toFixed(2)}</span>
-            <span className="text-sm">Total deposit amount</span>
           </div>
         </div>
         

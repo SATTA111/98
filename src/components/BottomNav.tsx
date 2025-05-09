@@ -1,12 +1,40 @@
 
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { Link } from "react-router-dom";
-import { History, User } from "lucide-react";
+import { User, Wallet } from "lucide-react";
 
 const BottomNav = () => {
   const navigate = useNavigate();
   const location = useLocation();
+  const [totalDeposit, setTotalDeposit] = useState(0);
+  const [totalWithdrawal, setTotalWithdrawal] = useState(0);
+
+  useEffect(() => {
+    // Get deposit history and calculate total
+    const depositHistory = JSON.parse(localStorage.getItem('depositHistory') || '[]');
+    const depositTotal = depositHistory.reduce((sum, item) => sum + (parseFloat(item.amount) || 0), 0);
+    setTotalDeposit(depositTotal);
+    
+    // Get withdrawal history and calculate total
+    const withdrawHistory = JSON.parse(localStorage.getItem('withdrawHistory') || '[]');
+    const withdrawalTotal = withdrawHistory.reduce((sum, item) => sum + (parseFloat(item.amount) || 0), 0);
+    setTotalWithdrawal(withdrawalTotal);
+    
+    // Listen for changes in localStorage
+    const handleStorage = () => {
+      const newDepositHistory = JSON.parse(localStorage.getItem('depositHistory') || '[]');
+      const newDepositTotal = newDepositHistory.reduce((sum, item) => sum + (parseFloat(item.amount) || 0), 0);
+      setTotalDeposit(newDepositTotal);
+      
+      const newWithdrawHistory = JSON.parse(localStorage.getItem('withdrawHistory') || '[]');
+      const newWithdrawalTotal = newWithdrawHistory.reduce((sum, item) => sum + (parseFloat(item.amount) || 0), 0);
+      setTotalWithdrawal(newWithdrawalTotal);
+    };
+    
+    window.addEventListener('storage', handleStorage);
+    return () => window.removeEventListener('storage', handleStorage);
+  }, []);
 
   return (
     <nav className="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 py-2">
@@ -34,18 +62,32 @@ const BottomNav = () => {
             <path d="M12 8v8M8 12h8" />
           </svg>
         </button>
-        <Link to="/withdraw-history" className="flex flex-col items-center p-2 text-gray-400">
-          <svg className="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-            <path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2" />
-            <circle cx="9" cy="7" r="4" />
-            <path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75" />
-          </svg>
+        <Link to="/withdraw-history" className="flex flex-col items-center p-2 text-gray-400 relative">
+          <Wallet className="w-6 h-6" />
           <span className="text-xs">Wallet</span>
+          <div className="absolute -top-1 -right-1 bg-gradient-to-r from-red-400 to-red-500 text-white text-xs rounded-full p-0.5 flex items-center justify-center" style={{ minWidth: '14px', minHeight: '14px' }}>
+            <span className="text-[8px] font-bold">{totalDeposit.toFixed(0)}</span>
+          </div>
         </Link>
-        <Link to="/account" className="flex flex-col items-center p-2 text-gray-400">
+        <Link to="/account" className="flex flex-col items-center p-2 text-gray-400 relative">
           <User className="w-6 h-6" />
           <span className="text-xs">Account</span>
+          <div className="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full p-0.5 flex items-center justify-center" style={{ minWidth: '14px', minHeight: '14px' }}>
+            <span className="text-[8px] font-bold">{totalWithdrawal.toFixed(0)}</span>
+          </div>
         </Link>
+      </div>
+      
+      {/* Wallet and deposit info */}
+      <div className="grid grid-cols-2 gap-2 mt-1 px-4 pb-1 text-center">
+        <div className="flex flex-col items-center">
+          <span className="text-xs text-gray-500">Total withdrawal</span>
+          <span className="text-xs font-bold text-red-500">₹{totalWithdrawal.toFixed(2)}</span>
+        </div>
+        <div className="flex flex-col items-center">
+          <span className="text-xs text-gray-500">Total deposit</span>
+          <span className="text-xs font-bold text-red-500">₹{totalDeposit.toFixed(2)}</span>
+        </div>
       </div>
     </nav>
   );
