@@ -62,14 +62,14 @@ const BottomNav = () => {
             <path d="M12 8v8M8 12h8" />
           </svg>
         </button>
-        <Link to="/withdraw-history" className="flex flex-col items-center p-2 text-gray-400 relative">
+        <Link to="/wallet" className={`flex flex-col items-center p-2 ${location.pathname === '/wallet' ? 'text-red-500' : 'text-gray-400'} relative`}>
           <Wallet className="w-6 h-6" />
           <span className="text-xs">Wallet</span>
           <div className="absolute -top-1 -right-1 bg-gradient-to-r from-red-400 to-red-500 text-white text-xs rounded-full p-0.5 flex items-center justify-center" style={{ minWidth: '14px', minHeight: '14px' }}>
             <span className="text-[8px] font-bold">{totalDeposit.toFixed(0)}</span>
           </div>
         </Link>
-        <Link to="/account" className="flex flex-col items-center p-2 text-gray-400 relative">
+        <Link to="/account" className={`flex flex-col items-center p-2 ${location.pathname === '/account' ? 'text-red-500' : 'text-gray-400'} relative`}>
           <User className="w-6 h-6" />
           <span className="text-xs">Account</span>
           <div className="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full p-0.5 flex items-center justify-center" style={{ minWidth: '14px', minHeight: '14px' }}>
