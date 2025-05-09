@@ -10,11 +10,6 @@ const FeatureCards = () => {
           alt="Wheel of fortune"
           className="w-full h-full object-cover absolute"
         />
-        <div className="absolute p-4 text-white">
-          <span className="text-xl font-bold">
-            Wheel<br />of fortune
-          </span>
-        </div>
       </div>
       <div className="relative h-24 rounded-xl overflow-hidden flex items-center">
         <img 
@@ -22,11 +17,6 @@ const FeatureCards = () => {
           alt="VIP privileges"
           className="w-full h-full object-cover absolute"
         />
-        <div className="absolute p-4 text-white">
-          <span className="text-xl font-bold">
-            VIP<br />privileges
-          </span>
-        </div>
       </div>
     </div>
   );
