@@ -1,3 +1,4 @@
+
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -10,6 +11,7 @@ import DepositHistory from "./pages/DepositHistory";
 import NotFound from "./pages/NotFound";
 import Gift from "./pages/Gift";
 import WithdrawHistory from "./pages/WithdrawHistory";
+import Withdraw from "./pages/Withdraw";
 import React, { useEffect, useState } from "react";
 import LoginRegister from "@/components/LoginRegister";
 
@@ -54,6 +56,7 @@ const App = () => {
             <Route path="/deposit-history" element={<DepositHistory />} />
             <Route path="/gift" element={<Gift />} />
             <Route path="/withdraw-history" element={<WithdrawHistory />} />
+            <Route path="/withdraw" element={<Withdraw />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
         </Router>

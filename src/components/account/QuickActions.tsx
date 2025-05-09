@@ -26,7 +26,11 @@ const QuickActions = () => {
         </div>
         <span className="text-xs">Deposit</span>
       </Button>
-      <Button variant="ghost" className="flex flex-col items-center gap-2 h-auto py-2">
+      <Button 
+        variant="ghost" 
+        className="flex flex-col items-center gap-2 h-auto py-2"
+        onClick={() => navigate('/withdraw')}
+      >
         <div className="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center">
           <svg className="h-6 w-6 text-blue-500" viewBox="0 0 24 24">
             <path d="M15 12H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z" stroke="currentColor" fill="none" strokeWidth="2" strokeLinecap="round"/>
