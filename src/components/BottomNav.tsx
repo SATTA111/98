@@ -26,17 +26,13 @@ const BottomNav = () => {
           <span className="text-2xl">🎲</span>
           <span className="text-xs">Games</span>
         </button>
-        <button className="flex flex-col items-center p-2 text-gray-500">
-          <span className="text-2xl">💰</span>
-          <span className="text-xs">Wallet</span>
-        </button>
+        <Link to="/withdraw-history" className="flex flex-col items-center p-2 text-gray-500">
+          <History className="w-6 h-6" />
+          <span className="text-xs">Transaction</span>
+        </Link>
         <Link to="/account" className="flex flex-col items-center justify-center p-2">
           <span className="text-2xl">👤</span>
           <span className="text-xs">Account</span>
-        </Link>
-        <Link to="/withdraw-history" className="flex flex-col items-center justify-center p-2">
-          <History className="w-6 h-6" />
-          <span className="text-xs mt-1">History</span>
         </Link>
       </div>
     </nav>
