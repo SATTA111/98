@@ -1,24 +1,24 @@
 
 import React from 'react';
-import { Gamepad2 as Lobby, LayoutGrid as MiniGame, Dice1 as Slots, CreditCard as Card, Fish as Fishing } from 'lucide-react';
 
 const categories = [
-  { icon: Lobby, label: 'Lobby' },
-  { icon: MiniGame, label: 'Mini game' },
-  { icon: Slots, label: 'Slots' },
-  { icon: Card, label: 'Card' },
-  { icon: Fishing, label: 'Fishing' },
+  { icon: '🏠', label: 'Lobby', active: true },
+  { icon: '🎮', label: 'Mini game', active: false },
+  { icon: '🎰', label: 'Slots', active: false },
+  { icon: '🃏', label: 'Card', active: false },
+  { icon: '🎣', label: 'Fishing', active: false },
 ];
 
 const GameCategories = () => {
   return (
-    <div className="flex justify-between p-4 overflow-x-auto">
+    <div className="flex justify-between px-2 py-4 border-b overflow-x-auto">
       {categories.map((category) => (
         <button
           key={category.label}
-          className="flex flex-col items-center min-w-[4.5rem] gap-1 hover:text-red-500 transition-colors"
+          className={`flex flex-col items-center min-w-[4.5rem] gap-1 px-2 
+            ${category.active ? 'text-red-500' : 'text-gray-500'} transition-colors`}
         >
-          <category.icon className="h-6 w-6" />
+          <span className="text-2xl">{category.icon}</span>
           <span className="text-sm">{category.label}</span>
         </button>
       ))}

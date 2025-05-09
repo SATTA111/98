@@ -1,6 +1,5 @@
 
 import React, { useEffect, useState } from 'react';
-import { RefreshCw } from 'lucide-react';
 
 const Header = () => {
   const [balance, setBalance] = useState(0);
@@ -19,14 +18,16 @@ const Header = () => {
   return (
     <div className="flex justify-between items-center p-4 bg-white shadow-sm">
       <img src="/lovable-uploads/3ca1aaf6-f21e-4877-8bf1-49aca0d40e7d.png" alt="91 Club" className="h-8" />
-      <div className="flex items-center gap-2 bg-gray-50 p-2 rounded-lg">
-        <span className="text-yellow-500">₹</span>
-        <span className="font-medium">{balance.toFixed(2)}</span>
-        <RefreshCw className="h-4 w-4 text-gray-400 cursor-pointer hover:rotate-180 transition-transform duration-500" />
+      <div className="flex items-center">
+        <button className="p-2 text-red-500 relative">
+          <div className="absolute top-0 right-0 w-3 h-3 bg-red-500 rounded-full"></div>
+          <svg className="h-6 w-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+            <path d="M12 6v6l4 2M12 2a10 10 0 100 20 10 10 0 000-20z" />
+          </svg>
+        </button>
       </div>
     </div>
   );
 };
 
 export default Header;
-
