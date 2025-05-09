@@ -12,6 +12,7 @@ import NotFound from "./pages/NotFound";
 import Gift from "./pages/Gift";
 import WithdrawHistory from "./pages/WithdrawHistory";
 import Withdraw from "./pages/Withdraw";
+import AddBankAccount from "./pages/AddBankAccount";
 import React, { useEffect, useState } from "react";
 import LoginRegister from "@/components/LoginRegister";
 
@@ -57,6 +58,7 @@ const App = () => {
             <Route path="/gift" element={<Gift />} />
             <Route path="/withdraw-history" element={<WithdrawHistory />} />
             <Route path="/withdraw" element={<Withdraw />} />
+            <Route path="/add-bank-account" element={<AddBankAccount />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
         </Router>

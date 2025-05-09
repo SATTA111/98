@@ -1,10 +1,22 @@
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { ArrowLeft } from 'lucide-react';
+import { ArrowLeft, Plus } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { toast } from 'sonner';
+
+interface BankAccount {
+  id: string;
+  bank: {
+    id: string;
+    name: string;
+  };
+  recipientName: string;
+  accountNumber: string;
+  phoneNumber: string;
+  ifscCode: string;
+}
 
 const WithdrawPage = () => {
   const navigate = useNavigate();
@@ -14,7 +26,17 @@ const WithdrawPage = () => {
     const storedBalance = localStorage.getItem('walletBalance');
     return storedBalance ? parseFloat(storedBalance) : 0;
   });
+  const [bankAccounts, setBankAccounts] = useState<BankAccount[]>([]);
+  const [selectedAccount, setSelectedAccount] = useState<BankAccount | null>(null);
   
+  useEffect(() => {
+    const accounts = JSON.parse(localStorage.getItem('bankAccounts') || '[]');
+    setBankAccounts(accounts);
+    if (accounts.length > 0 && !selectedAccount) {
+      setSelectedAccount(accounts[0]);
+    }
+  }, []);
+
   const handleWithdraw = () => {
     const amountNum = parseFloat(amount);
     
@@ -27,6 +49,11 @@ const WithdrawPage = () => {
       toast.error("Insufficient balance");
       return;
     }
+
+    if (withdrawalMethod === 'bank' && !selectedAccount) {
+      toast.error("Please add a bank account");
+      return;
+    }
     
     // Process withdrawal
     const newBalance = balance - amountNum;
@@ -37,9 +64,8 @@ const WithdrawPage = () => {
       timestamp: new Date().toISOString(),
       id: "WD" + Date.now().toString(),
       status: 'completed',
-      upiId: 'default-upi',
       bankName: withdrawalMethod === 'bank' ? 'BANK CARD' : 'USDT',
-      mobileNumber: '035110****977',
+      accountDetails: withdrawalMethod === 'bank' ? selectedAccount : null,
       type: withdrawalMethod === 'bank' ? 'BANK CARD' : 'USDT'
     };
 
@@ -126,16 +152,38 @@ const WithdrawPage = () => {
           </button>
         </div>
         
-        {/* Bank Info */}
-        <div className="bg-white rounded-xl p-4 mb-4">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center gap-3">
-              <div className="text-red-500">🏦</div>
-              <div>India Post Bank</div>
-            </div>
-            <div className="text-gray-500">035110****977 &gt;</div>
+        {/* Bank Account Selection */}
+        {withdrawalMethod === 'bank' && (
+          <div className="bg-white rounded-xl p-4 mb-4">
+            {bankAccounts.length > 0 ? (
+              <div className="flex items-center justify-between">
+                <div className="flex items-center gap-3">
+                  <div className="text-red-500">🏦</div>
+                  <div>{selectedAccount?.bank.name || 'Select Bank'}</div>
+                </div>
+                <div className="text-gray-500">{selectedAccount?.accountNumber ? `****${selectedAccount.accountNumber.slice(-4)}` : ''} &gt;</div>
+              </div>
+            ) : (
+              <Button 
+                variant="ghost" 
+                className="w-full flex items-center justify-center gap-2 text-red-500"
+                onClick={() => navigate('/add-bank-account')}
+              >
+                <div className="w-10 h-10 border-2 border-dashed border-gray-300 rounded-lg flex items-center justify-center">
+                  <Plus className="h-4 w-4" />
+                </div>
+                <span>Add a bank account number</span>
+              </Button>
+            )}
           </div>
-        </div>
+        )}
+
+        {/* Warning Message */}
+        {withdrawalMethod === 'bank' && bankAccounts.length === 0 && (
+          <div className="text-center text-red-500 mb-4">
+            Need to add beneficiary information to be able to withdraw money
+          </div>
+        )}
         
         {/* Amount Input */}
         <div className="bg-white rounded-xl p-4 mb-4">
