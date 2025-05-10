@@ -22,7 +22,11 @@ const SettingsMenu = () => {
         <ChevronRight className="h-5 w-5 text-gray-400" />
       </Button>
 
-      <Button variant="outline" className="w-full justify-between h-auto py-4">
+      <Button 
+        variant="outline" 
+        className="w-full justify-between h-auto py-4"
+        onClick={() => navigate("/game-stats")}
+      >
         <div className="flex gap-3 items-center">
           <div className="w-10 h-10 bg-red-100 rounded-full flex items-center justify-center">
             <BarChart3 className="h-5 w-5 text-red-500" />

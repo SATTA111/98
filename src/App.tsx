@@ -14,6 +14,7 @@ import WithdrawHistory from "./pages/WithdrawHistory";
 import Withdraw from "./pages/Withdraw";
 import AddBankAccount from "./pages/AddBankAccount";
 import Wallet from "./pages/Wallet";
+import GameStats from "./pages/GameStats";
 import React, { useEffect, useState } from "react";
 import LoginRegister from "@/components/LoginRegister";
 
@@ -61,6 +62,7 @@ const App = () => {
             <Route path="/withdraw" element={<Withdraw />} />
             <Route path="/add-bank-account" element={<AddBankAccount />} />
             <Route path="/wallet" element={<Wallet />} />
+            <Route path="/game-stats" element={<GameStats />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
         </Router>
