@@ -15,6 +15,7 @@ import Withdraw from "./pages/Withdraw";
 import AddBankAccount from "./pages/AddBankAccount";
 import Wallet from "./pages/Wallet";
 import GameStats from "./pages/GameStats";
+import WinGo from "./pages/WinGo"; // Add the new import
 import React, { useEffect, useState } from "react";
 import LoginRegister from "@/components/LoginRegister";
 
@@ -63,6 +64,7 @@ const App = () => {
             <Route path="/add-bank-account" element={<AddBankAccount />} />
             <Route path="/wallet" element={<Wallet />} />
             <Route path="/game-stats" element={<GameStats />} />
+            <Route path="/wingo" element={<WinGo />} /> {/* Add the new route */}
             <Route path="*" element={<NotFound />} />
           </Routes>
         </Router>

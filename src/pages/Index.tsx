@@ -11,14 +11,40 @@ import NotificationBanner from '@/components/NotificationBanner';
 
 const Index = () => {
   const navigate = useNavigate();
+  const [walletBalance, setWalletBalance] = useState<string>("0.15");
+  
+  useEffect(() => {
+    // Get wallet balance from localStorage
+    const storedBalance = localStorage.getItem("walletBalance");
+    if (storedBalance) {
+      setWalletBalance(parseFloat(storedBalance).toFixed(2));
+    }
+    
+    // Listen for changes in wallet balance
+    const handleStorageChange = () => {
+      const newBalance = localStorage.getItem("walletBalance");
+      if (newBalance) {
+        setWalletBalance(parseFloat(newBalance).toFixed(2));
+      }
+    };
+    
+    window.addEventListener("storage", handleStorageChange);
+    return () => window.removeEventListener("storage", handleStorageChange);
+  }, []);
   
   // Handler for game image click
-  const handleGameClick = () => {
-    toast({
-      title: "Minimum Deposit Required",
-      description: "Minimum deposit is ₹500 to play this game.",
-      variant: "destructive",
-    });
+  const handleGameClick = (gameType: string) => {
+    const walletBalance = parseFloat(localStorage.getItem("walletBalance") || "0");
+    
+    if (gameType === "wingo") {
+      navigate('/wingo');
+    } else {
+      toast({
+        title: "Minimum Deposit Required",
+        description: "Minimum deposit is ₹500 to play this game.",
+        variant: "destructive",
+      });
+    }
   };
 
   return (
@@ -34,7 +60,7 @@ const Index = () => {
         </div>
         <div className="flex items-center justify-between mb-4">
           <div className="flex items-center gap-2">
-            <span className="text-2xl font-bold">₹0.15</span>
+            <span className="text-2xl font-bold">₹{walletBalance}</span>
             <button className="p-1">
               <svg className="h-4 w-4 text-gray-400" viewBox="0 0 24 24">
                 <path d="M12 4V1M12 23v-3M4.22 19.78l2.12-2.12M17.66 6.34l2.12-2.12M1 12h3M23 12h-3M4.22 4.22l2.12 2.12M17.66 17.66l2.12 2.12" 
@@ -94,7 +120,10 @@ const Index = () => {
           </div>
           
           <div className="grid grid-cols-2 gap-4 mt-4">
-            <div className="aspect-video bg-blue-100 rounded-xl overflow-hidden cursor-pointer relative" onClick={handleGameClick}>
+            <div 
+              className="aspect-video bg-blue-100 rounded-xl overflow-hidden cursor-pointer relative" 
+              onClick={() => handleGameClick("wingo")}
+            >
               <img 
                 src="/lovable-uploads/5afca07a-0c74-4b32-8ae4-2906146503c9.png"
                 alt="Win Go"
@@ -104,7 +133,7 @@ const Index = () => {
                 <h3 className="text-white text-3xl font-bold">WIN GO</h3>
               </div>
             </div>
-            <div className="aspect-video bg-orange-100 rounded-xl overflow-hidden cursor-pointer relative" onClick={handleGameClick}>
+            <div className="aspect-video bg-orange-100 rounded-xl overflow-hidden cursor-pointer relative" onClick={() => handleGameClick("k3")}>
               <img 
                 src="/lovable-uploads/825f07e4-8b47-423a-b362-853f7498bfc7.png"
                 alt="K3"
@@ -114,10 +143,10 @@ const Index = () => {
                 <h3 className="text-white text-3xl font-bold">K3</h3>
               </div>
             </div>
-            <div className="aspect-video bg-green-400 rounded-xl overflow-hidden cursor-pointer flex items-center justify-center" onClick={handleGameClick}>
+            <div className="aspect-video bg-green-400 rounded-xl overflow-hidden cursor-pointer flex items-center justify-center" onClick={() => handleGameClick("5d")}>
               <h3 className="text-white text-3xl font-bold">5D</h3>
             </div>
-            <div className="aspect-video bg-gradient-to-r from-blue-400 to-purple-400 rounded-xl overflow-hidden cursor-pointer flex items-center justify-center" onClick={handleGameClick}>
+            <div className="aspect-video bg-gradient-to-r from-blue-400 to-purple-400 rounded-xl overflow-hidden cursor-pointer flex items-center justify-center" onClick={() => handleGameClick("trywingo")}>
               <h3 className="text-white text-3xl font-bold">TRY WINGO</h3>
             </div>
           </div>
